@@ -18,8 +18,8 @@ helplist.clear={"params": "N/A", "usage": "Clears the screen"}
 helplist["while"]={"params": "[quantity][command][args]", "usage": "Repeat a command"}
 // helplist.setup={"params": "[-m/-rs/-ps]", "usage": "Setup Lunarium"}
 helplist.anon={"params": "N/A", "usage": "Enable or disable hidden mode"}
-// helplist.sshs={"params": "[-c]", "usage": "Displays SSH virus logs, or clears them"}
-// helplist.passwds={"params": "[-c]", "usage": "Displays passwd virus logs, or clears them"}
+helplist.sshs={"params": "[-c]", "usage": "Displays SSH virus logs, or clears them"}
+helplist.passwds={"params": "[-c]", "usage": "Displays passwd virus logs, or clears them"}
 helplist.disclaimer = {"params": "N/A", "usage": "Licensing details"}
 // helplist.mailbomb={"params": "[recipient][subject][body][quantity]", "usage": "Spams an email's inbox"}
 // helplist.clrmail={"params": "N/A", "usage": "Clears emails"}
@@ -130,11 +130,11 @@ helplist.cdos={"params": "[quantity]", "usage": "CPU Denial Of Service attack"}
 //virus controls
 helplist.virus="-=Viruses=-"
 
-// helplist.infect={"params": "N/A", "usage": "Infects /bin/ssh, /bin/passwd, and /bin/ps"}
+helplist.infect={"params": "N/A", "usage": "Infects /bin/ssh, /bin/passwd, and /bin/ps"}
 helplist.rshell={"params": "[ip][process][port]", "usage": "Creates a reverse shell connection"}
-// helplist.ransom={"params": "N/A", "usage": "Encrypt a system and demand payment for decryption"}
-// helplist.inject={"params": "[file]", "usage": "Inject reverse shell code into a source code file"}
-// helplist.aptjack={"params": "N/A", "usage": "Jack the apt stream and infect every file!"}
+helplist.ransom={"params": "N/A", "usage": "Encrypt a system and demand payment for decryption"}
+helplist.inject={"params": "[file]", "usage": "Inject reverse shell code into a source code file"}
+helplist.aptjack={"params": "N/A", "usage": "Jack the apt stream and infect every file!"}
 
 //security controls
 helplist.security="-=Security=-"
